@@ -9,12 +9,34 @@ import matplotlib.image as mpimg
 img = mpimg.imread('happy2.jpg')
 original_img = np.zeros(img.shape, dtype="uint8")
 #original_img[:,:,:] = img[:,:,:]
-original_img = img[:,:,0]
+#original_img = img[:,:,0]
+#original_img = original_img.astype(np.int16)
 
-original_img = original_img.astype(np.int16)
-print(original_img)
 
-#new_img[:,:,:] = original_img[:,:,:]
+
+
+def convert_2_gray_np16(in_img):
+    
+       #convert the original image into a writable NP array 
+
+       out_img = np.zeros(in_img.shape, dtype="uint8")
+
+       #slice out the red channel to convert to single channel(grey_scale)
+       out_img = img[:,:,0]
+       #convert the np array from uint8 to int16 for math reasons
+       out_img = out_img.astype(np.int16)
+
+       print("out image shape is:" + str(out_img.shape[0]))
+       return out_img
+
+    
+#def convert_back_rgb(in_img):
+    #clip the data in the rgb color range
+
+    #convert the array type back to uint8
+
+    #copy the first channel to the other channels
+
 
 """
 def difference_images_sum(original_arr, new_arr):
@@ -29,6 +51,8 @@ def difference_images_sum(original_arr, new_arr):
     
     return difference_sum
 """
+
+original_img = convert_2_gray_np16(img)
 
 class image_generator:
     def __init__(self, img_shape):

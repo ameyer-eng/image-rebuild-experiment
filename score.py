@@ -30,13 +30,30 @@ def convert_2_gray_np16(in_img):
        return out_img
 
     
-#def convert_back_rgb(in_img):
+def convert_back_rgb(in_img):
+    #create a np array of appropriate size for the new image
+    out_size = (in_img.shape[0], in_img.shape[1], 3)
+    out_img = np.zeros(out_size, dtype="uint8")
+
     #clip the data in the rgb color range
+    for x in in_img:
+        for y in x:
+              
+              if y > 255:
+                  y = 255
+              if y < 0:
+                  y = 0
 
     #convert the array type back to uint8
+    in_img = in_img.astype("uint8")
 
     #copy the first channel to the other channels
 
+    out_img[:,:,0] = in_img[:,:]
+    out_img[:,:,1] = in_img[:,:]
+    out_img[:,:,2] = in_img[:,:]
+    
+    return out_img
 
 """
 def difference_images_sum(original_arr, new_arr):
@@ -51,8 +68,23 @@ def difference_images_sum(original_arr, new_arr):
     
     return difference_sum
 """
+#####################################################################
+#####################################################################
+#####################################################################
+#####################################################################
 
 original_img = convert_2_gray_np16(img)
+
+converted_img = convert_back_rgb(original_img)
+
+#####################################################################
+#####################################################################
+#####################################################################
+#####################################################################
+
+
+
+
 
 class image_generator:
     def __init__(self, img_shape):
@@ -112,7 +144,7 @@ plt.show()
 
 diff_img = original_img - generator_0.img
 
-rect3plot = plt.imshow(diff_img, cmap='gray')
+rect3plot = plt.imshow(converted_img)
 plt.show()
 
 score = generator_0.score(original_img)
